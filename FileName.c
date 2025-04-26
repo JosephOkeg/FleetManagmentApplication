@@ -92,5 +92,5 @@ void addMachine(Machinery** head) {
 }
 
 int main() {
-    ggggggggggggg
+    
 }
