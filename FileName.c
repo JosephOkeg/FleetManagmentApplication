@@ -91,6 +91,65 @@ void addMachine(Machinery** head) {
     printf("Machine added successfully!\n");
 }
 
+void displayAllMachines(Machinery* head) {
+    if (!head) {
+        printf("No machinery data available.\n");
+        return;
+    }
+
+    printf("\n--- Fleet Machinery List ---\n");
+    while (head) {
+        printf("Chassis Number: %s, Make: %s, Model: %s, Year: %d\n",
+            head->chassisNumber, head->make, head->model, head->year);
+        head = head->next;
+    }
+}
+
+void displayMachineDetails(Machinery* head) {
+    char chassis[MAX_STRING];
+    printf("Enter Chassis Number: ");
+    scanf("%s", chassis);
+
+    while (head) {
+        if (strcmp(head->chassisNumber, chassis) == 0) {
+            printf("\nMachine Details:\n");
+            printf("Make: %s\nModel: %s\nYear: %d\nCost: %.2lf\n",
+                head->make, head->model, head->year, head->cost);
+            printf("Valuation: %.2lf\nMileage: %d\nNext Service: %d\n",
+                head->valuation, head->mileage, head->nextServiceMileage);
+            printf("Owner: %s, Email: %s, Phone: %s\n",
+                head->ownerName, head->ownerEmail, head->ownerPhone);
+            printf("Machine Type: %s\nBreakdowns: %s\n", head->machineType, head->breakdowns);
+            return;
+        }
+        head = head->next;
+    }
+
+    printf("Machine not found.\n");
+}
+
+void updateMachine(Machinery* head) {
+    char chassis[MAX_STRING];
+    printf("Enter Chassis Number to update: ");
+    scanf("%s", chassis);
+
+    while (head) {
+        if (strcmp(head->chassisNumber, chassis) == 0) {
+            printf("Enter New Mileage: ");
+            scanf("%d", &head->mileage);
+            printf("Enter New Next Service Mileage: ");
+            scanf("%d", &head->nextServiceMileage);
+            printf("Enter New Valuation: ");
+            scanf("%lf", &head->valuation);
+            printf("Machine details updated successfully!\n");
+            return;
+        }
+        head = head->next;
+    }
+
+    printf("Machine not found.\n");
+}
+
 int main() {
     
 }
