@@ -150,6 +150,55 @@ void updateMachine(Machinery* head) {
     printf("Machine not found.\n");
 }
 
+void deleteMachine(Machinery** head) {
+    char chassis[MAX_STRING];
+    printf("Enter Chassis Number to delete: ");
+    scanf("%s", chassis);
+
+    Machinery* temp = *head, * prev = NULL;
+
+    while (temp) {
+        if (strcmp(temp->chassisNumber, chassis) == 0) {
+            if (prev) {
+                prev->next = temp->next;
+            }
+            else {
+                *head = temp->next;
+            }
+            free(temp);
+            printf("Machine deleted successfully.\n");
+            return;
+        }
+        prev = temp;
+        temp = temp->next;
+    }
+
+    printf("Machine not found.\n");
+}
+
+void generateStatistics(Machinery* head) {
+    if (!head) {
+        printf("No machinery data available.\n");
+        return;
+    }
+
+    int count = 0, totalMileage = 0;
+    double totalValuation = 0.0;
+
+    while (head) {
+        totalMileage += head->mileage;
+        totalValuation += head->valuation;
+        count++;
+        head = head->next;
+    }
+
+    printf("\n--- Fleet Statistics ---\n");
+    printf("Total Machines: %d\n", count);
+    printf("Average Valuation: %.2lf\n", (count > 0) ? (totalValuation / count) : 0);
+    printf("Total Fleet Mileage: %d\n", totalMileage);
+}
+
+
 int main() {
     
 }
