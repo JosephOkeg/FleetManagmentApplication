@@ -198,6 +198,65 @@ void generateStatistics(Machinery* head) {
     printf("Total Fleet Mileage: %d\n", totalMileage);
 }
 
+void printReport(Machinery* head) {
+    FILE* file = fopen("fleet_report.txt", "w");
+    if (!file) {
+        printf("Error creating report file.\n");
+        return;
+    }
+
+    fprintf(file, "Fleet Management Report\n-------------------------\n");
+    while (head) {
+        fprintf(file, "Chassis: %s | Make: %s | Model: %s | Year: %d | Valuation: %.2lf\n",
+            head->chassisNumber, head->make, head->model, head->year, head->valuation);
+        head = head->next;
+    }
+
+    fclose(file);
+    printf("Report generated successfully.\n");
+}
+
+void listByValuation(Machinery* head) {
+    if (!head) {
+        printf("No machinery data available.\n");
+        return;
+    }
+
+    // Convert linked list to array
+    int count = 0;
+    Machinery* temp = head;
+    while (temp) {
+        count++;
+        temp = temp->next;
+    }
+
+    Machinery** machines = malloc(count * sizeof(Machinery*));
+    temp = head;
+    for (int i = 0; i < count; i++) {
+        machines[i] = temp;
+        temp = temp->next;
+    }
+
+    // Sort array by valuation
+    for (int i = 0; i < count - 1; i++) {
+        for (int j = 0; j < count - i - 1; j++) {
+            if (machines[j]->valuation < machines[j + 1]->valuation) {
+                Machinery* swap = machines[j];
+                machines[j] = machines[j + 1];
+                machines[j + 1] = swap;
+            }
+        }
+    }
+
+    // Display sorted list
+    printf("\n--- Machines Sorted by Valuation ---\n");
+    for (int i = 0; i < count; i++) {
+        printf("Chassis: %s | Make: %s | Valuation: %.2lf\n",
+            machines[i]->chassisNumber, machines[i]->make, machines[i]->valuation);
+    }
+
+    free(machines);
+}
 
 int main() {
     
