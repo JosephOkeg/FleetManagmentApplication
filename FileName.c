@@ -294,6 +294,62 @@ void saveFleetData(Machinery* head) {
     fclose(file);
 }
 
+// Function to load login data from file
+void loadLoginData(Login** head) {
+    FILE* file = fopen(LOGIN_FILE, "r");
+    if (!file) {
+        printf("Error opening login file. No users loaded.\n");
+        return;
+    }
+
+    while (!feof(file)) {
+        Login* newLogin = (Login*)malloc(sizeof(Login));
+        if (!newLogin) {
+            printf("Memory allocation failed.\n");
+            fclose(file);
+            return;
+        }
+        if (fscanf(file, "%s %s", newLogin->username, newLogin->password) == 2) {
+            newLogin->next = *head;
+            *head = newLogin;
+        }
+        else {
+            free(newLogin);
+        }
+    }
+    fclose(file);
+}
+
+// Function to load fleet data from file
+void loadFleetData(Machinery** head) {
+    FILE* file = fopen(FLEET_FILE, "r");
+    if (!file) {
+        printf("Error opening fleet file. No data loaded.\n");
+        return;
+    }
+
+    while (!feof(file)) {
+        Machinery* newMachine = (Machinery*)malloc(sizeof(Machinery));
+        if (!newMachine) {
+            printf("Memory allocation failed.\n");
+            fclose(file);
+            return;
+        }
+        if (fscanf(file, "%99s %99s %99s %d %lf %lf %d %d %99s %99s %99s %99s %99s",
+            newMachine->chassisNumber, newMachine->make, newMachine->model, &newMachine->year,
+            &newMachine->cost, &newMachine->valuation, &newMachine->mileage, &newMachine->nextServiceMileage,
+            newMachine->ownerName, newMachine->ownerEmail, newMachine->ownerPhone,
+            newMachine->machineType, newMachine->breakdowns) == 13) {
+            newMachine->next = *head;
+            *head = newMachine;
+        }
+        else {
+            free(newMachine);
+        }
+    }
+    fclose(file);
+}
+
 int main() {
     
 }
