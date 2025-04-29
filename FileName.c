@@ -258,6 +258,42 @@ void listByValuation(Machinery* head) {
     free(machines);
 }
 
+// Function to authenticate user
+int authenticateUser(Login* head) {
+    char username[MAX_STRING], password[PASSWORD_LENGTH + 1];
+    printf("Enter Username: ");
+    scanf("%99s", username);
+    printf("Enter Password: ");
+    scanf("%6s", password);
+
+    while (head) {
+        if (strcmp(head->username, username) == 0 && strcmp(head->password, password) == 0) {
+            printf("Login Successful!\n");
+            return 1;
+        }
+        head = head->next;
+    }
+    return 0;
+}
+
+void saveFleetData(Machinery* head) {
+    FILE* file = fopen(FLEET_FILE, "w");
+    if (!file) {
+        printf("Error opening fleet file for writing.\n");
+        return;
+    }
+    Machinery* temp = head;
+    while (temp) {
+        fprintf(file, "%s,%s,%s,%d,%.2lf,%.2lf,%d,%d,%s,%s,%s,%s,%s\n",
+            temp->chassisNumber, temp->make, temp->model, temp->year, temp->cost,
+            temp->valuation, temp->mileage, temp->nextServiceMileage,
+            temp->ownerName, temp->ownerEmail, temp->ownerPhone,
+            temp->machineType, temp->breakdowns);
+        temp = temp->next;
+    }
+    fclose(file);
+}
+
 int main() {
     
 }
