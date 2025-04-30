@@ -350,6 +350,54 @@ void loadFleetData(Machinery** head) {
     fclose(file);
 }
 
+void freeLoginData(Login* head) {
+    while (head) {
+        Login* temp = head;
+        head = head->next;
+        free(temp);
+    }
+}
+
+void freeFleetData(Machinery* head) {
+    while (head) {
+        Machinery* temp = head;
+        head = head->next;
+        free(temp);
+    }
+}
+
+void menu(Machinery** fleetHead) {
+    int choice;
+    do {
+        printf("\nFleet Management System\n");
+        printf("1) Add Machine\n");
+        printf("2) Display All Machines\n");
+        printf("3) Display Machine Details\n");
+        printf("4) Update Machine Details\n");
+        printf("5) Delete Machine\n");
+        printf("6) Generate Statistics\n");
+        printf("7) Print Report\n");
+        printf("8) List by Valuation\n");
+        printf("9) Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        while (getchar() != '\n'); // Clear input buffer
+
+        switch (choice) {
+        case 1: addMachine(fleetHead); break;
+        case 2: displayAllMachines(*fleetHead); break;
+        case 3: displayMachineDetails(*fleetHead); break;
+        case 4: updateMachine(*fleetHead); break;
+        case 5: deleteMachine(fleetHead); break;
+        case 6: generateStatistics(*fleetHead); break;
+        case 7: printReport(*fleetHead); break;
+        case 8: listByValuation(*fleetHead); break;
+        case 9: printf("Exiting...\n"); break;
+        default: printf("Invalid choice. Try again.\n");
+        }
+    } while (choice != 9);
+}
+
 int main() {
     
 }
