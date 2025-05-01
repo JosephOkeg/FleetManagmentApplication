@@ -399,5 +399,21 @@ void menu(Machinery** fleetHead) {
 }
 
 int main() {
-    
+    Login* loginHead = NULL;
+    Machinery* fleetHead = NULL;
+    loadLoginData(&loginHead);
+    loadFleetData(&fleetHead);
+
+    if (!authenticateUser(loginHead)) {
+        printf("Access Denied. Exiting...\n");
+        return 0;
+    }
+
+    menu(&fleetHead);
+    saveFleetData(fleetHead);
+
+    freeLoginData(loginHead);
+    freeFleetData(fleetHead);
+
+    return 0;
 }
